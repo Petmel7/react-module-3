@@ -1,53 +1,35 @@
 import './App.css';
 import { Component } from 'react';
-import { ProductList } from './components/ProductList.js';
-import Form from './components/Form.js';
+import Modal from './components/Modal.js';
 
 class App extends Component {
 
   state = {
-    counter: 0,
-    isOpen: false,
-    allProducts: []
+    showModal: false,
   }
 
-  // const product = {
-  //   id:,
-  // }
-
-  componentDidUpdate(prevProps, prevState) { 
-    console.log(`UPDATE`)
-  } 
-
-  componentDidMount() {
-    console.log(`MOUNT`)
-  }
-
-  componentWillUnmount() {
-    console.log(`UNMOUNT`)
-  }
-  
-  addNewProduct = obj => {
-    this.setState(prevState => ({
-      allProducts: [...prevState.allProducts, obj]
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal
     }))
   }
 
-  deleteProduct = () => {
-    console.log(`DELETE`)
-  }
-
   render() {
-    console.log(`Render method`)
+    const { showModal } = this.state;
+    
     return (
       <div className="App">
-        <h1>Module-3</h1>
-        <Form />
-        <ProductList
-          products={this.state.products}
-          onDeleteProduct={this.deleteProduct} />
+        <button type="button"
+          onClick={this.toggleModal}>Open Modal</button>
+        
+        {showModal && (
+          <Modal>
+            <button type='button'
+              onClick={this.toggleModal}>X</button>
+          </Modal>
+        )}
       </div>
-  );
+    );
   }
 }
 
