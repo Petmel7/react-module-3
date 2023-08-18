@@ -1,5 +1,10 @@
 import { Component } from "react";
+//! Для модалкі замість z-index в react
+import { createPortal } from "react-dom";
 import './Modal.css';
+
+//! Для модалкі замість z-index в react
+const modalRoot = document.querySelector('#modal-root');
 
 export default class Modal extends Component {
 
@@ -12,12 +17,13 @@ export default class Modal extends Component {
     }
     
     render() {
-        return (
+        return createPortal (
             <div className="Modal-backgdrop">
                 <div className="Modal-content">
                     {this.props.children}
                 </div>
-            </div>
+            </div>,
+            modalRoot
         )
     }
 }
