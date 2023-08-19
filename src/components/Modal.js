@@ -20,21 +20,31 @@ export default class Modal extends Component {
         window.addEventListener('keydown', this.handleKeyDown)
     }
 
-    
-    componentDidUpdate(prevProps, prevState) {
-        console.log('Modal componentDidUpdate')
-
-    }
-
     componentWillUnmount() {
         console.log('Modal componentWillUnmount');
         window.removeEventListener('keydown', this.handleKeyDown);
 }
 
+    // componentDidUpdate(prevProps, prevState) {
+    //     console.log('Modal componentDidUpdate')
+
+    // }
+
+    handleBackdropClick = event => {
+        console.log('Клікнули в бекдроп')
+        console.log(event.currentTarget)
+        console.log(event.target)
+
+        if (event.currentTarget === event.target) {
+            this.props.onClose()
+        }
+    }
     
     render() {
         return createPortal (
-            <div className="Modal-backgdrop">
+            <div className="Modal-backgdrop"
+                onClick={this.handleBackdropClick}>
+                
                 <div className="Modal-content">
                     {this.props.children}
                 </div>
