@@ -8,30 +8,17 @@ const modalRoot = document.querySelector('#modal-root');
 
 export default class Modal extends Component {
 
-    // componentDidMount() {
-    //     console.log('Modal componentDidMount')
-
-    //     this.handleKeyDown = (e) => {
-    //         if (e.code === 'Escape') {
-    //             console.log('ESC')
-    //             this.props.onClose();
-    //         }
-    //     }
-    //     window.addEventListener('keydown', this.handleKeyDown)
-    // }
-
     componentDidMount() {
-    console.log('Modal componentDidMount')
+        console.log('Modal componentDidMount')
 
-    this.handleKeyDown = (e) => {
-        if (e.code === 'Escape') {
-            console.log('ESC')
-            this.props.onClose();
+        this.handleKeyDown = (e) => {
+            if (e.code === 'Escape') {
+                console.log('ESC')
+                this.props.onClose();
+            }
         }
-    };
-
-    window.addEventListener('keydown', this.handleKeyDown);
-}
+        window.addEventListener('keydown', this.handleKeyDown)
+    }
 
     
     componentDidUpdate(prevProps, prevState) {
