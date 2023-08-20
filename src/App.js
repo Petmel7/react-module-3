@@ -1,9 +1,9 @@
 import './App.css';
 import { Component } from 'react';
-import Clock from './components/Clock.js';
+// import Clock from './components/Clock.js';
 // import Modal from './components/Modal.js';
-import Tabs from './components/Tabs.js';
-import items from './components/Tabs.json';
+// import Tabs from './components/Tabs.js';
+// import items from './components/Tabs.json';
 
 // class App extends Component {
 
@@ -43,18 +43,50 @@ import items from './components/Tabs.json';
 //   }
 // }
 
+// class App extends Component {
+
+//   state = {
+    
+//   }
+
+//   render() {
+    
+//     return (
+//       <div className="App">
+//         <Clock />
+//         <Tabs items={items} />
+//       </div>
+//     );
+//   }
+// }
+
 class App extends Component {
 
   state = {
-    
+    pokemon: null,
+    loading: false
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true });
+
+    setTimeout(() => {
+      fetch('https://pokeapi.co/api/v2/pokemon/ditto')
+        .then(res => res.json())
+        .then(pokemon => this.setState({ pokemon }))
+        .finally(() => {
+          this.setState({ loading: false })
+        });
+    },1000)
   }
 
   render() {
+    const { pokemon, loading } = this.state;
     
     return (
-      <div className="App">
-        <Clock />
-        <Tabs items={items} />
+      <div className="App" style={{ maxWidth: 1170, margin: '0 auto', padding: 20 }}>
+        {loading && <h1>Load...</h1>}
+        {pokemon && <div>{pokemon.name}</div>}
       </div>
     );
   }
