@@ -11,11 +11,11 @@ import items from './components/Tabs.json';
 //     showModal: false,
 //   }
 
-//   toggleModal = () => {
-//     this.setState(({ showModal }) => ({
-//       showModal: !showModal
-//     }))
-//   }
+  // toggleModal = () => {
+  //   this.setState(({ showModal }) => ({
+  //     showModal: !showModal
+  //   }))
+  // }
 
 //   render() {
 //     const { showModal } = this.state;
