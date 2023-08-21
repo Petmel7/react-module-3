@@ -1,10 +1,13 @@
 import './App.css';
 import { Component } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import Clock from './components/Clock.js';
 // import Modal from './components/Modal.js';
 // import Tabs from './components/Tabs.js';
 // import items from './components/Tabs.json';
 import PokemonForm from './components/pokemon/PokemonForm.js';
+import PokemonInfo from './components/pokemon/PokemonInfo.js';
 
 // class App extends Component {
 
@@ -63,8 +66,13 @@ import PokemonForm from './components/pokemon/PokemonForm.js';
 
 class App extends Component {
 
+  state = {
+    pokemonName: '',
+  }
+
   handleFormSubmit = pokemonName => {
-    console.log(pokemonName)
+    
+    this.setState({ pokemonName });
   }
 
   render() {
@@ -74,6 +82,8 @@ class App extends Component {
         style={{ maxWidth: 1170, margin: '0 auto', padding: 20 }}>
         <PokemonForm
           handleFormSubmit={this.handleFormSubmit} />
+        <ToastContainer autoClose={3000} />
+        <PokemonInfo pokemonName={this.state.pokemonName} />
       </div>
     );
   }

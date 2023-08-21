@@ -1,9 +1,10 @@
 import { Component } from "react";
 import { ImSearch } from "react-icons/im";
+import { toast } from 'react-toastify';
 
 export default class PokemonForm extends Component {
     state = {
-        pokemonName: ''
+        pokemonName: '',
     }
 
     handleNameChnge = event => {
@@ -11,7 +12,12 @@ export default class PokemonForm extends Component {
     }
 
     handleSubmit = event => {
-        event.preventDefault()
+        event.preventDefault();
+
+        if (this.state.pokemonName.trim() === '') {
+            toast('Введіть імя Pokemona')
+            return;
+        }
 
         this.props.handleFormSubmit(this.state.pokemonName);
         this.setState({ pokemonName: '' });
@@ -19,7 +25,7 @@ export default class PokemonForm extends Component {
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <input
                     type="text"
                     name="pokemonName"
