@@ -53,3 +53,5 @@ export default class PokemonInfo extends Component {
         }
     }
 }
+
+// `https://pokeapi.co/api/v2/pokemon/${nextName}`
