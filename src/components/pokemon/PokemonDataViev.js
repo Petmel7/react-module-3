@@ -1,4 +1,5 @@
-export default function PokemonDataViev({pokemon: {sprites, name, stats}}) {
+export default function PokemonDataViev({ pokemon: { sprites, name, stats } }) {
+    console.log(stats)
     return (
         <div>
             <img
