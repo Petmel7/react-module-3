@@ -1,57 +1,99 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import PokemonErrorViev from './PokemonErrorViev.js';
 import PokemonDataViev from './PokemonDataViev.js';
 import PokemonPendingViev from './PokemonPendingViev.js';
 
-export default class PokemonInfo extends Component {
+export default function PokemonInfo({ pokemonName }) {
+    const [pokemon, setPokemon] = useState(null);
+    const [error, setError] = useState(null);
+    const [status, setStatus] = useState('idle');
 
-    state = {
-        pokemon: null,
-        error: null,
-        status: 'idle'
-    }
+    useEffect(() => {
+        if (!pokemonName) {
+            return
+        }
 
-    componentDidUpdate(prevProps, prevState) {
-        const prevName = prevProps.pokemonName
-        const nextName = this.props.pokemonName
-
-        if (prevName !== nextName) {
-            
-            this.setState({ status: 'pending'});
-            setTimeout(() => {
-                fetch(`https://pokeapi.co/api/v2/pokemon/${nextName}`)
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json()
-                        }
-                        return Promise.reject(
-                            new Error(`Нема покемона з імям ${nextName}`)
-                        )
-                    })
-                    .then(pokemon => this.setState({ pokemon, status: 'resolved' }))
-                    .catch(error => this.setState({ error, status: 'rejected' }))
-            }, 1000)
+        setStatus('pending');
         
-        }
+        setTimeout(() => {
+            fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    return Promise.reject(
+                        new Error(`Нема покемона з імям ${pokemonName}`)
+                    )
+                })
+                .then(pokemon => {
+                    setPokemon(pokemon)
+                    setStatus('resolved')
+                })
+
+                .catch(error => {
+                    setError(error)
+                    setStatus('rejected')
+                })
+            
+        }, 1000)
+        
+    }, [pokemonName]);
+
+    if (status === 'idle') {
+        return <h1>Введіть імя покемона</h1>;
     }
-
-    render() {
-        const { pokemon, error, status } = this.state;
-        const { pokemonName } = this.props;
-
-        if (status === 'idle') {
-            return <h1>Введіть імя покемона</h1>;
-        }
-        if (status === 'pending') {
-            return <PokemonPendingViev pokemonName={pokemonName}/>;
-        }
-        if (status === 'rejected') {
-            return <PokemonErrorViev message={error.message}/>;
-        }
-        if (status === 'resolved') {
-            return <PokemonDataViev pokemon={pokemon} />;
-        }
+    if (status === 'pending') {
+        return <PokemonPendingViev pokemonName={pokemonName} />;
+    }
+    if (status === 'rejected') {
+        return <PokemonErrorViev message={error.message} />;
+    }
+    if (status === 'resolved') {
+        return <PokemonDataViev pokemon={pokemon} />;
     }
 }
+    
 
-// `https://pokeapi.co/api/v2/pokemon/${nextName}`
+
+
+
+// export default function PokemonInfo({ pokemonName }) {
+//     const [pokemon, setPokemon] = useState(null);
+//     const [error, setError] = useState(null);
+//     const [status, setStatus] = useState('idle');
+
+//     useEffect(() => {
+//         const fetchPokemon = async () => {
+//             try {
+//                 setStatus('pending');
+//                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+//                 if (response.ok) {
+//                     const data = await response.json();
+//                     setPokemon(data);
+//                     setStatus('resolved');
+//                 } else {
+//                     throw new Error(`Нема покемона з іменем ${pokemonName}`);
+//                 }
+//             } catch (error) {
+//                 setError(error);
+//                 setStatus('rejected');
+//             }
+//         };
+
+//         fetchPokemon();
+//     }, [pokemonName]);
+
+//     if (status === 'idle') {
+//         return <h1>Введіть ім'я покемона</h1>;
+//     }
+//     if (status === 'pending') {
+//         return <PokemonPendingViev pokemonName={pokemonName} />;
+//     }
+//     if (status === 'rejected') {
+//         return <PokemonErrorViev message={error.message} />;
+//     }
+//     if (status === 'resolved') {
+//         return <PokemonDataViev pokemon={pokemon} />;
+//     }
+// }
+
