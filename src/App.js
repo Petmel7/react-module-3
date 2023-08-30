@@ -1,5 +1,5 @@
 import './App.css';
-import { Component } from 'react';
+import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import Clock from './components/Clock.js';
@@ -64,29 +64,18 @@ import PokemonInfo from './components/pokemon/PokemonInfo.js';
 //   }
 // }
 
-class App extends Component {
-
-  state = {
-    pokemonName: '',
-  }
-
-  handleFormSubmit = pokemonName => {
-    
-    this.setState({ pokemonName });
-  }
-
-  render() {
+function App() {
+  const [pokemonName, setPokemonName] = useState('');
     
     return (
       <div className="App"
         style={{ maxWidth: 1170, margin: '0 auto', padding: 20 }}>
         <PokemonForm
-          handleFormSubmit={this.handleFormSubmit} />
+          handleFormSubmit={setPokemonName} />
         <ToastContainer autoClose={3000} />
-        <PokemonInfo pokemonName={this.state.pokemonName} />
+        <PokemonInfo pokemonName={pokemonName} />
       </div>
     );
   }
-}
 
 export default App;
